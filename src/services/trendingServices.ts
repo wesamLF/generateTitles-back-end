@@ -45,7 +45,7 @@ export async function getTrendingVideosData(url: string) {
         })
         await browser.close()
         if (videos.length == 0 || !videos) {
-            throw new Error()
+            throw new Error("empty")
         }
         return videos
 
