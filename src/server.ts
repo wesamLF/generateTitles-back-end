@@ -35,7 +35,7 @@ app.use("/generate", generateTitlesRoute)
 app.use("/download", downloadFilesRoute)
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    res.status(503).json({ error: "Sorry something went wrong. Please try again.--" + err })
+    res.status(503).json({ error: err.message })
 })
 
 app.listen(port, (): void => { console.log("server is online", port) })

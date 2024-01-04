@@ -19,7 +19,7 @@ type videoType = {
 export async function getTrendingVideosData(url: string) {
 
     const browser = await puppeteer.launch({
-           headless: true,
+           headless: "new"
     })
 
 
@@ -37,7 +37,7 @@ export async function getTrendingVideosData(url: string) {
                 const channleLink = ele?.querySelector(".yt-simple-endpoint.style-scope.yt-formatted-string")?.getAttribute("href")
                 const views = ele?.querySelector(".inline-metadata-item.style-scope.ytd-video-meta-block")?.textContent
                 if (!title || !channleName || !views || !videoLink || !channleLink) {
-                    throw new Error()
+                    throw new Error("elelments")
                 }
                 return { title, channleName, views, videoLink, channleLink }
             })
