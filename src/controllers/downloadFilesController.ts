@@ -19,7 +19,7 @@ type trendingDataType = {
 export const downloadFileCsv = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const fileName = uuid();
-        const data:trendingDataType = validJSON(req.body.data.trending)
+        const data:trendingDataType = validJSON(req.body?.data?.trending)
         const fileFullPath = path.join(getPublicFilePath(), `${fileName}.csv`)
         const ws = fs.createWriteStream(fileFullPath)
         const csvFile = csv.write(data, { headers: true }).pipe(ws).on("finish", async () => {

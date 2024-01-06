@@ -1485,3 +1485,5 @@ const nowMockupTrendingData = {
         }
     ]
 }
+ 
+export {gamingMockupTrendingData , musicMockupTrendingData, moviesMockupTrendingData, nowMockupTrendingData}

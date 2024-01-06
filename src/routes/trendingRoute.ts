@@ -7,7 +7,6 @@ router.get('/:genre/genres', trendingGenresController); // return top 5 gnere an
 
 
 
-//get(///) -> download pdf titles and channle links
 
 
 

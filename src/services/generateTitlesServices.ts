@@ -2,16 +2,16 @@
 import { config } from "dotenv"
 config()
 import OpenAI from "openai"
-import { titlesFromTrendingPrompt, titlesFromAiPrompt } from "../util/generateTitles.prompts";
+import { titlesFromTrendingPrompt, titlesFromAiPrompt } from "../openAi.prompts/generateTitles.prompts";
 
 
 
-export async function getGeneratedTitlesFromMostViewed(trendingTitles: string[]) {
+export async function getGeneratedTitlesFromMostViewed(mostViewedvideos: string[]) {
 
     const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY });
     const stream = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo-1106',
-        messages: titlesFromTrendingPrompt(trendingTitles),
+        messages: titlesFromTrendingPrompt(mostViewedvideos),
         response_format: {
             type: "json_object"
         }
@@ -27,12 +27,12 @@ export async function getGeneratedTitlesFromMostViewed(trendingTitles: string[])
 
 
 }
-export async function getGeneratedTitlesFromAI(tobic: string) {
+export async function getGeneratedTitlesFromAI(topic: string) {
    
         const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY });
         const stream = await openai.chat.completions.create({
             model: 'gpt-3.5-turbo-1106',
-            messages: titlesFromAiPrompt(tobic),
+            messages: titlesFromAiPrompt(topic),
             response_format: {
                 type: "json_object"
             }

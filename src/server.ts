@@ -26,13 +26,13 @@ const downlaodlimiter = rateLimit({
 
 app.use(bodyParser.json());
 app.use(cors())
-// app.use(limiter)
+app.use(limiter)
 app.get("/home", (req, res, next) => {
     res.send("welcome")
 })
 app.use("/trending", trendingRoute)
 app.use("/generate", generateTitlesRoute)
-app.use("/download", downloadFilesRoute)
+app.use("/download",downlaodlimiter, downloadFilesRoute)
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     res.status(503).json({ error: err.message })
 })

@@ -1,7 +1,7 @@
 
 import { Request, Response, NextFunction } from "express"
 import { getGeneratedTitlesFromAI, getGeneratedTitlesFromMostViewed } from "../services/generateTitlesServices"
-import { getMostViewedVideos } from "../services/mostViewedVideosService"
+import { mostViewedMockupData, topicTpyes } from "../local-storage/mostViewedMockupData/mostViewedMockupData.handler"
 
 type generateTitlesMVType = {
     generatedTitle: string
@@ -13,23 +13,19 @@ type generateTitlesAIType = {
 }
 
 export async function generateTitlesFromMostViewed(req: Request, res: Response, next: NextFunction) {
-    
-    try {
-        //req.body.Input-> the base title 
-        // const trndingTitles = await getTitles()
-        const temp = await getMostViewedVideos(req.params?.tobic || "gaming")
 
-        /////////// getmostview mockup data /////////////////
-        console.log(temp)
-        res.json(temp)
+    try {
         let titles: (string | null)[]
-        if (temp) {
-            titles = temp.map((title) => title!.title)
-        } else { titles = [""] }
-        const generatedTitles:generateTitlesMVType[] = await getGeneratedTitlesFromMostViewed(titles as string[])
-        const fullData = temp?.map((video, i) => {
-            const temp = generatedTitles.filter((genTi)=> video?.title == genTi?.originalTitle)
-            return{...video , generatedTitle: temp[0].generatedTitle}
+
+        const data = mostViewedMockupData(req.params?.topic as topicTpyes)
+        if (!data) throw new Error("invalid topic!")
+
+        titles = data.map((title) => title!.title)
+        const generatedTitles: generateTitlesMVType[] = await getGeneratedTitlesFromMostViewed(titles as string[])
+        //regrouping the orginal mostviewed titles array and the generated titles
+        const fullData = data?.map((video, i) => {
+            const temp = generatedTitles.filter((genTi) => video?.title == genTi?.originalTitle)
+            return { ...video, generatedTitle: temp[0].generatedTitle }
         })
         res.status(200)
         res.json(fullData)
@@ -43,9 +39,9 @@ export async function generateTitlesFromMostViewed(req: Request, res: Response, 
 
 export async function generateTitlesFromAI(req: Request, res: Response, next: NextFunction) {
     try {
-      
-        const generatedTitles:generateTitlesAIType[] = await getGeneratedTitlesFromAI(req.params?.tobic || "gaming") 
-        
+
+        const generatedTitles: generateTitlesAIType[] = await getGeneratedTitlesFromAI(req.params?.topic as topicTpyes)
+
         res.json(generatedTitles)
     } catch (err) {
         next(err)
