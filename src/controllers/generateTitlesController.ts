@@ -18,6 +18,10 @@ export async function generateTitlesFromMostViewed(req: Request, res: Response, 
         //req.body.Input-> the base title 
         // const trndingTitles = await getTitles()
         const temp = await getMostViewedVideos(req.params?.tobic || "gaming")
+
+        /////////// getmostview mockup data /////////////////
+        console.log(temp)
+        res.json(temp)
         let titles: (string | null)[]
         if (temp) {
             titles = temp.map((title) => title!.title)
