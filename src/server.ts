@@ -34,6 +34,9 @@ app.use("/trending", trendingRoute)
 app.use("/generate", generateTitlesRoute)
 app.use("/download",downlaodlimiter, downloadFilesRoute)
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    // console.log("rrrrrr", err)
+    // console.log("meee." ,err.message)
+
     res.status(503).json({ error: err.message })
 })
 

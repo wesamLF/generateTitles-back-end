@@ -16,11 +16,9 @@ export async function trendingVideosController(req: Request, res: Response, next
         const data = trendingMockupData(req.params?.genre as urlTpyes)
         if (!data) throw new Error("invalid genre! try: gaming | movies | now | music")
 
-        const fullData = {
-            trending: data,
-        }
+       
         res.status(200)
-        res.json(fullData)
+        res.json(data)
     } catch (err) {
         next(err)
     }
